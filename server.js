@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 const express = require('express');
 const mongoose = require('mongoose');
+var cors = require('cors');
 const app = express();
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send("Hello World");
