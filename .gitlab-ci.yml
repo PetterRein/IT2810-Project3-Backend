@@ -1,3 +1,16 @@
+build site:
+  only:
+    - merge_requests
+  image: node:latest
+  stage: build
+  script:
+    - npm install --progress=false
+    - npm run build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - ./build
+
 unit test:
   image: node:latest
   stage: test
@@ -25,6 +38,7 @@ deploy:
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - ssh pettegre@it2810-40.idi.ntnu.no 'sudo systemctl stop express.service'
     - ssh pettegre@it2810-40.idi.ntnu.no 'sudo rm -rf /var/www/server/prosjekt3'
+    - rsync -rav --delete build/ pettegre@it2810-40.idi.ntnu.no:/var/www/server/prosjekt3/
     - rsync -rav /builds/IT2810-H19/teams/team-40/project-3-backend/* pettegre@it2810-40.idi.ntnu.no:/var/www/server/prosjekt3/
-    - ssh pettegre@it2810-40.idi.ntnu.no 'cd /var/www/server/prosjekt3; npm install; sudo chmod +x server.js'
+    - ssh pettegre@it2810-40.idi.ntnu.no 'cd /var/www/server/prosjekt3; npm install; sudo chmod +x build/server.js'
     - ssh pettegre@it2810-40.idi.ntnu.no 'sudo systemctl start express.service'

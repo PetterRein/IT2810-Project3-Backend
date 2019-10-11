@@ -1,5 +1,5 @@
 var request = require('supertest');
-var app = require('../server.js');
+var app = require('../src/server.js');
 
 describe('GET /', function() {
   it('respond with hello world', function(done) {
