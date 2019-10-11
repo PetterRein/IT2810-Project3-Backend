@@ -1,6 +1,6 @@
 import { GraphQLSchema, GraphQLObjectType, GraphQLString } from 'graphql';
 
-export const schema = new GraphQLSchema({
+const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'HelloWorld',
     fields: () => ({
@@ -11,3 +11,5 @@ export const schema = new GraphQLSchema({
     })
   })
 })
+
+export default schema
