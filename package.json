@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon server.js",
+    "server": "nodemon --exec babel-node server.js",
     "test": "mocha --exit"
   },
   "author": "",
@@ -15,6 +15,10 @@
     "mongoose": "^5.7.3"
   },
   "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
+    "@babel/preset-env": "^7.6.3",
     "mocha": "^6.2.1",
     "nodemon": "^1.19.3",
     "supertest": "^4.0.2"
