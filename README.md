@@ -13,7 +13,7 @@ Server is running on port 5050 not 5000 because Petter had already something run
 
 Express is the server application, mongoDB is the database, Mongoose is a ORM that abstracts the communication with the Database. Nodemon just restarts server when files changes.
 
-
+GraphQL is setup with help from this video: [Web Dev Simplified Learn GraphQL](https://www.youtube.com/watch?v=ZQL7tL2S0oQ)
 ## Getting started
 - [Prerequisites](#prerequisites)
 - [Setup](#setup)
