@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-const express = require('express');
-const mongoose = require('mongoose');
-var cors = require('cors');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+
 const app = express();
 app.use(cors());
 
