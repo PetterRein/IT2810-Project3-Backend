@@ -34,13 +34,11 @@ const Mutation = new GraphQLObjectType({
     addHelloWorld: {
       type: HelloWorldType,
       args: {
-        value: { type: new GraphQLNonNull(GraphQLString)},
-        helloWorldID: { type: new GraphQLNonNull(GraphQLString)}
+        value: { type: new GraphQLNonNull(GraphQLString)}
       },
       resolve: (parent, args) => {
         let newHelloWorld = new HelloWorld({
-          value: args.value,
-          helloWorldID: args.helloWorldID 
+          value: args.value
         });
         return newHelloWorld.save()
       }
