@@ -16,6 +16,10 @@ app.use('/graphql', expressGraphQL({
   graphiql: true
 }))
 
+mongoose.connect("mongodb://localhost:27017/project3", {
+  useNewUrlParser: true
+});
+
 const port = process.env.PORT || 5050;
 app.listen(port, () => console.log(`server running on port ${port}`));
 module.exports = app

@@ -13,10 +13,13 @@ Server is running on port 5050 not 5000 because Petter had already something run
 
 Express is the server application, mongoDB is the database, Mongoose is a ORM that abstracts the communication with the Database. Nodemon just restarts server when files changes.
 
+MongoDB is running on the server, but you could download it an run yourself. Just follow the getting started steps. The monogdb on the server will be preloaded with data, the local one you have to yourself load with some data.
+
 GraphQL is setup with help from this video: [Web Dev Simplified Learn GraphQL](https://www.youtube.com/watch?v=ZQL7tL2S0oQ)
 ## Getting started
 - [Prerequisites](#prerequisites)
 - [Setup](#setup)
+- [MongoDB](https://docs.mongodb.com/)
 
 ### Prerequisites
 - [npm](https://www.npmjs.com/)
@@ -24,6 +27,8 @@ GraphQL is setup with help from this video: [Web Dev Simplified Learn GraphQL](h
 
 ### Setup
 - Install [Prerequisites](#prerequisites)
+- Create a db in mongoDB with the name project3 and collection project3
+- Check that mongodb is running on localhost:27017
 - Navigate to desired location and clone repo
 - Enter `cd project-3-backend` to enter repo folder
 - Enter `npm install` to install required packages
