@@ -1,7 +1,10 @@
 import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID } from 'graphql';
+import mongoose from 'mongoose'
 import HelloWorld from '../models/HelloWorld'
 import MovieType from '../types/Movie'
 import Movie from '../models/Movie';
+import MovieCommentType from '../types/MovieComment';
+import MovieComment from '../models/MovieComment';
 
 const HelloWorldType = new GraphQLObjectType({
   name: 'HelloWorld',
@@ -32,6 +35,26 @@ const RootQuery = new GraphQLObjectType({
       resolve () {
         return Movie.find({})
       }
+    },
+    comments: {
+      type: new GraphQLList(MovieCommentType),
+      resolve () {
+        return MovieComment.find({})
+      }
+    },
+    commentsForMovie: {
+      type: new GraphQLList(MovieCommentType),
+      args: { movieid: { type: GraphQLID } },
+      resolve (_, args) {
+        return MovieComment.find({movieid: args.movieid})
+      }
+    },
+    comment: {
+      type: MovieCommentType,
+      args: { id: { type: GraphQLID } },
+      resolve (_, args) {
+        return MovieComment.findById(args.id)
+      }
     }
   }
 });
@@ -49,6 +72,21 @@ const Mutation = new GraphQLObjectType({
           value: args.value
         });
         return newHelloWorld.save()
+      }
+    },
+    addMovieComment: {
+      type: MovieCommentType,
+      args: {
+        movieid: { type: new GraphQLNonNull(GraphQLID)},
+        comment: { type: new GraphQLNonNull(GraphQLString)}
+      },
+      resolve: (parent, args) => {
+        let newMovieComment = new MovieComment({
+          _id: mongoose.Types.ObjectId(),
+          movieid: args.movieid,
+          comment: args.comment
+        });
+        return newMovieComment.save()
       }
     }
   }
