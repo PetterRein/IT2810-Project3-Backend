@@ -1,5 +1,7 @@
 import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID } from 'graphql';
 import HelloWorld from '../models/HelloWorld'
+import MovieType from '../types/Movie'
+import Movie from '../models/Movie';
 
 const HelloWorldType = new GraphQLObjectType({
   name: 'HelloWorld',
@@ -24,7 +26,13 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
           return HelloWorld.find({});
       }
-  },
+    },
+    movies: {
+      type: new GraphQLList(MovieType),
+      resolve () {
+        return Movie.find({})
+      }
+    }
   }
 });
 
