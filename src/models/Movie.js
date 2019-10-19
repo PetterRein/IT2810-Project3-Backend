@@ -10,7 +10,7 @@ const MovieSchema = new Schema({
   poster_path: String,
   original_language: String,
   genre_ids: Array,
-  release_date: Date,
+  release_date: String,
   overview: String,
 })
 
