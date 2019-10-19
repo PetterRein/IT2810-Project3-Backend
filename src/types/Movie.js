@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID } from 'graphql';
+import { GraphQLInt, GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID, GraphQLFloat } from 'graphql';
 
 const MovieType = new GraphQLObjectType({
   name: 'Movie',
@@ -6,7 +6,7 @@ const MovieType = new GraphQLObjectType({
     id: { type: GraphQLID },
     title: { type: GraphQLString },
     popularity: { type: GraphQLInt },
-    vote_average: { type: GraphQLInt },
+    vote_average: { type: GraphQLFloat },
     poster_path: { type: GraphQLString },
     original_language: { type: GraphQLString },
     genre_ids: { type: GraphQLList(GraphQLInt) },
