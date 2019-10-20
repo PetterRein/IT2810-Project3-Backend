@@ -1,4 +1,4 @@
-import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID } from 'graphql';
+import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID, GraphQLInt } from 'graphql';
 import mongoose from 'mongoose'
 import HelloWorld from '../models/HelloWorld'
 import MovieType from '../types/Movie'
@@ -34,6 +34,19 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(MovieType),
       resolve () {
         return Movie.find({})
+      }
+    },
+    numberOfMovies: {
+      type: GraphQLInt,
+      resolve () {
+        return Movie.find({}).count()
+      }
+    },
+    movies: {
+      type: new GraphQLList(MovieType),
+      args: { first: { type: GraphQLInt }, skip: { type: GraphQLInt} },
+      resolve (_, args) {
+        return Movie.find({}).skip(args.skip).limit(args.first)
       }
     },
     comments: {
