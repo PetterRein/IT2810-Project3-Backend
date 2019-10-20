@@ -1,4 +1,4 @@
-import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID, GraphQLInt } from 'graphql';
+import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID, GraphQLInt, GraphQLBoolean } from 'graphql';
 import mongoose from 'mongoose'
 import HelloWorld from '../models/HelloWorld'
 import MovieType from '../types/Movie'
@@ -30,12 +30,6 @@ const RootQuery = new GraphQLObjectType({
           return HelloWorld.find({});
       }
     },
-    movies: {
-      type: new GraphQLList(MovieType),
-      resolve () {
-        return Movie.find({})
-      }
-    },
     numberOfMovies: {
       type: GraphQLInt,
       resolve () {
@@ -44,9 +38,9 @@ const RootQuery = new GraphQLObjectType({
     },
     movies: {
       type: new GraphQLList(MovieType),
-      args: { first: { type: GraphQLInt }, skip: { type: GraphQLInt} },
+      args: { first: { type: GraphQLInt }, skip: { type: GraphQLInt}, sortField: {type: GraphQLString}, sortDir: {type: GraphQLBoolean} },
       resolve (_, args) {
-        return Movie.find({}).skip(args.skip).limit(args.first)
+        return args.sortDir ? Movie.find({}).sort('-'+args.sortField).skip(args.skip).limit(args.first) : Movie.find({}).sort(args.sortField).skip(args.skip).limit(args.first)
       }
     },
     comments: {
