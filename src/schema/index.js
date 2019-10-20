@@ -36,6 +36,12 @@ const RootQuery = new GraphQLObjectType({
         return Movie.find({})
       }
     },
+    numberOfMovies: {
+      type: GraphQLInt,
+      resolve () {
+        return Movie.find({}).count()
+      }
+    },
     movies: {
       type: new GraphQLList(MovieType),
       args: { first: { type: GraphQLInt }, skip: { type: GraphQLInt} },
