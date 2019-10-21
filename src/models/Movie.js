@@ -14,4 +14,5 @@ const MovieSchema = new Schema({
   overview: String,
 })
 
+MovieSchema.index( { "$**": "text" } )
 export default mongoose.model('Movie', MovieSchema);
