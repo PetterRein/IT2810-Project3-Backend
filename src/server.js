@@ -18,8 +18,10 @@ app.use('/graphql', expressGraphQL({
   graphiql: true
 }))
 
+mongoose.set('useCreateIndex', true)
 mongoose.connect("mongodb://localhost:27017/project3", {
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 
 function loadMovies() {
