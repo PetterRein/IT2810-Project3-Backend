@@ -44,6 +44,13 @@ const RootQuery = new GraphQLObjectType({
         return args.filter && args.sortDir ? Movie.find({ $text: { $search: args.filter }, vote_average: {$gte: args.vote_average}}).sort('-'+args.sortField).skip(args.skip).limit(args.first) :  args.filter ? Movie.find({ $text: { $search: args.filter }, vote_average: {$gte: args.vote_average}}).sort(args.sortField).skip(args.skip).limit(args.first) : args.sortDir ? Movie.find({vote_average: {$gte: args.vote_average}}).sort('-'+args.sortField).skip(args.skip).limit(args.first) : Movie.find({vote_average: {$gte: args.vote_average}}).sort(args.sortField).skip(args.skip).limit(args.first)
       }
     },
+    movie: {
+      type: MovieType,
+      args: { id: { type: GraphQLID } },
+      resolve (_, args) {
+        return Movie.findById(args.id)
+      }
+    },
     comments: {
       type: new GraphQLList(MovieCommentType),
       resolve () {
