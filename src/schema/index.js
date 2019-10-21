@@ -1,4 +1,4 @@
-import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID, GraphQLInt, GraphQLBoolean } from 'graphql';
+import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID, GraphQLInt, GraphQLBoolean, GraphQLFloat } from 'graphql';
 import mongoose from 'mongoose'
 import HelloWorld from '../models/HelloWorld'
 import MovieType from '../types/Movie'
@@ -38,10 +38,10 @@ const RootQuery = new GraphQLObjectType({
     },
     movies: {
       type: new GraphQLList(MovieType),
-      args: { filter: { type: GraphQLString }, first: { type: GraphQLInt }, skip: { type: GraphQLInt}, sortField: {type: GraphQLString}, sortDir: {type: GraphQLBoolean} },
+      args: { filter: { type: GraphQLString }, first: { type: GraphQLInt }, skip: { type: GraphQLInt}, sortField: {type: GraphQLString}, sortDir: {type: GraphQLBoolean}, vote_average: {type: GraphQLFloat} },
       resolve (_, args) {
-
-        return args.filter && args.sortDir ? Movie.find({ $text: { $search: args.filter }}).sort('-'+args.sortField).skip(args.skip).limit(args.first) :  args.filter ? Movie.find({ $text: { $search: args.filter }}).sort(args.sortField).skip(args.skip).limit(args.first) : args.sortDir ? Movie.find({}).sort('-'+args.sortField).skip(args.skip).limit(args.first) : Movie.find({}).sort(args.sortField).skip(args.skip).limit(args.first)
+        if (!args.vote_average) {args.vote_average = 0.0}
+        return args.filter && args.sortDir ? Movie.find({ $text: { $search: args.filter }, vote_average: {$gte: args.vote_average}}).sort('-'+args.sortField).skip(args.skip).limit(args.first) :  args.filter ? Movie.find({ $text: { $search: args.filter }, vote_average: {$gte: args.vote_average}}).sort(args.sortField).skip(args.skip).limit(args.first) : args.sortDir ? Movie.find({vote_average: {$gte: args.vote_average}}).sort('-'+args.sortField).skip(args.skip).limit(args.first) : Movie.find({vote_average: {$gte: args.vote_average}}).sort(args.sortField).skip(args.skip).limit(args.first)
       }
     },
     comments: {
