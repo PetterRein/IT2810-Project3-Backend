@@ -38,9 +38,10 @@ const RootQuery = new GraphQLObjectType({
     },
     movies: {
       type: new GraphQLList(MovieType),
-      args: { first: { type: GraphQLInt }, skip: { type: GraphQLInt}, sortField: {type: GraphQLString}, sortDir: {type: GraphQLBoolean} },
+      args: { filter: { type: GraphQLString }, first: { type: GraphQLInt }, skip: { type: GraphQLInt}, sortField: {type: GraphQLString}, sortDir: {type: GraphQLBoolean} },
       resolve (_, args) {
-        return args.sortDir ? Movie.find({}).sort('-'+args.sortField).skip(args.skip).limit(args.first) : Movie.find({}).sort(args.sortField).skip(args.skip).limit(args.first)
+
+        return args.filter && args.sortDir ? Movie.find({ $text: { $search: args.filter }}).sort('-'+args.sortField).skip(args.skip).limit(args.first) :  args.filter ? Movie.find({ $text: { $search: args.filter }}).sort(args.sortField).skip(args.skip).limit(args.first) : args.sortDir ? Movie.find({}).sort('-'+args.sortField).skip(args.skip).limit(args.first) : Movie.find({}).sort(args.sortField).skip(args.skip).limit(args.first)
       }
     },
     comments: {
