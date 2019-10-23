@@ -32,8 +32,25 @@ const RootQuery = new GraphQLObjectType({
     },
     numberOfMovies: {
       type: GraphQLInt,
-      resolve () {
-        return Movie.find({}).count()
+      args: { filter: { type: GraphQLString }, sortField: {type: GraphQLString}, sortDir: {type: GraphQLBoolean}, vote_average: {type: GraphQLFloat} },
+      resolve (_, args) {
+        if (!args.vote_average) {args.vote_average = 0.0}
+        if(args.filter && args.sortDir){
+          const movies = Movie.find({ $text: { $search: args.filter }, vote_average: {$gte: args.vote_average}}).sort('-'+args.sortField)
+          return movies.count()
+        }
+        else if (args.filter) {
+          const movies = Movie.find({ $text: { $search: args.filter }, vote_average: {$gte: args.vote_average}}).sort(args.sortField)
+          return movies.count()
+        }
+        else if (args.sortDir){
+          const movies = Movie.find({vote_average: {$gte: args.vote_average}}).sort('-'+args.sortField)
+          return movies.count()
+        }
+        else {
+          const movies = Movie.find({vote_average: {$gte: args.vote_average}}).sort(args.sortField)
+          return movies.count()
+        }
       }
     },
     movies: {
@@ -41,7 +58,22 @@ const RootQuery = new GraphQLObjectType({
       args: { filter: { type: GraphQLString }, first: { type: GraphQLInt }, skip: { type: GraphQLInt}, sortField: {type: GraphQLString}, sortDir: {type: GraphQLBoolean}, vote_average: {type: GraphQLFloat} },
       resolve (_, args) {
         if (!args.vote_average) {args.vote_average = 0.0}
-        return args.filter && args.sortDir ? Movie.find({ $text: { $search: args.filter }, vote_average: {$gte: args.vote_average}}).sort('-'+args.sortField).skip(args.skip).limit(args.first) :  args.filter ? Movie.find({ $text: { $search: args.filter }, vote_average: {$gte: args.vote_average}}).sort(args.sortField).skip(args.skip).limit(args.first) : args.sortDir ? Movie.find({vote_average: {$gte: args.vote_average}}).sort('-'+args.sortField).skip(args.skip).limit(args.first) : Movie.find({vote_average: {$gte: args.vote_average}}).sort(args.sortField).skip(args.skip).limit(args.first)
+        if(args.filter && args.sortDir){
+          const movies = Movie.find({ $text: { $search: args.filter }, vote_average: {$gte: args.vote_average}}).sort('-'+args.sortField).skip(args.skip).limit(args.first)
+          return movies
+        }
+        else if (args.filter) {
+          const movies = Movie.find({ $text: { $search: args.filter }, vote_average: {$gte: args.vote_average}}).sort(args.sortField).skip(args.skip).limit(args.first)
+          return movies
+        }
+        else if (args.sortDir){
+          const movies = Movie.find({vote_average: {$gte: args.vote_average}}).sort('-'+args.sortField).skip(args.skip).limit(args.first)
+          return movies
+        }
+        else {
+          const movies = Movie.find({vote_average: {$gte: args.vote_average}}).sort(args.sortField).skip(args.skip).limit(args.first)
+          return movies
+        }
       }
     },
     movie: {
