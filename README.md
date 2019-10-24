@@ -34,3 +34,13 @@ GraphQL is setup with help from this video: [Web Dev Simplified Learn GraphQL](h
 - Enter `npm install` to install required packages
 - Enter `npm run server` to run the application
 - backend should start at `localhost:5050`
+
+
+### Utvidet dokumentasjon ihht oppgavekrav
+
+Vi benytter Redux for å holde styr på dataflyten (State management, for å redusere behovet av synkronisering av komponenter manuelt slik som i tradisjonelle MVC-oppsett) sammen med Express (node webrammeverk), Mongo og GraphQL. Express kjører i Node og fungerer som en tjeneste som muliggjør spørringer til databasen gjennom HTTP. Et tilleggsverktøy GraphiQL kjører på /graphql og gjør at man kan teste spørringer direkte i nettleseren. 
+
+I kildekoden ligger det filer som beskriver schema og oppsett for databasen. Types definerer GraphQL-typer og benyttes for å sjekke at riktige ting sendes på resolve. I schema-mappen er det definert GraphQL-schema som strukturer på endepunkter medargumenter for søk, filtrering og oppsett som GraphQL trenger for å vite hva som skal returneres og hvordan man skal spørre etter data. Denne inneholder også struktur mutasjoner med informasjon om hvordan man legger til ting i databasen (for eksempel addMovieComment). 
+
+ Models-mappen inneholder MongoDB-modeller som forteller databasen hvordan modellene og deres felter / struktur ser ut. 
+
