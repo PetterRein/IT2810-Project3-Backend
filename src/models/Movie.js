@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
+// Modelen for hvordan Movie object skal bli lagret i Databasen
 const MovieSchema = new Schema({
   _id: Schema.Types.ObjectId,
   title: String, 

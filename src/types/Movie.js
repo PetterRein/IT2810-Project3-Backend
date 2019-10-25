@@ -1,5 +1,6 @@
 import { GraphQLInt, GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID, GraphQLFloat } from 'graphql';
 
+// GraphQL typer så den kan sjekke at vi sender riktige typer. Dette er for Typen Movie
 const MovieType = new GraphQLObjectType({
   name: 'Movie',
   fields: () => ({

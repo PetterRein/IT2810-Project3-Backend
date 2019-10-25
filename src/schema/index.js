@@ -1,35 +1,14 @@
 import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLID, GraphQLInt, GraphQLBoolean, GraphQLFloat } from 'graphql';
 import mongoose from 'mongoose'
-import HelloWorld from '../models/HelloWorld'
 import MovieType from '../types/Movie'
 import Movie from '../models/Movie';
 import MovieCommentType from '../types/MovieComment';
 import MovieComment from '../models/MovieComment';
 
-const HelloWorldType = new GraphQLObjectType({
-  name: 'HelloWorld',
-  fields: () => ({
-    id: { type: GraphQLID },
-    value: { type: GraphQLString },
-  })
-})
-
+// Holder alle våre schemaer som det går å spørre etter. De skulle helst vært delt opp i egne filer og importert hit hvis vi hadde hatt tid til å fikse det
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    helloWorld: {
-      type: HelloWorldType,
-      args: { id: { type: GraphQLID } },
-      resolve(parent, args) {
-          return HelloWorld.findById(args.id);
-      }
-    }, 
-    helloWorlds:{
-      type: new GraphQLList(HelloWorldType),
-      resolve(parent, args) {
-          return HelloWorld.find({});
-      }
-    },
     numberOfMovies: {
       type: GraphQLInt,
       args: { filter: { type: GraphQLString }, sortField: {type: GraphQLString}, sortDir: {type: GraphQLBoolean}, vote_average: {type: GraphQLFloat} },
@@ -109,18 +88,6 @@ const RootQuery = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
-    addHelloWorld: {
-      type: HelloWorldType,
-      args: {
-        value: { type: new GraphQLNonNull(GraphQLString)}
-      },
-      resolve: (parent, args) => {
-        let newHelloWorld = new HelloWorld({
-          value: args.value
-        });
-        return newHelloWorld.save()
-      }
-    },
     addMovieComment: {
       type: MovieCommentType,
       args: {
