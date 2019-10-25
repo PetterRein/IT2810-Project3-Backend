@@ -42,5 +42,9 @@ Vi benytter Redux for å holde styr på dataflyten (State management, for å red
 
 I kildekoden ligger det filer som beskriver schema og oppsett for databasen. Types definerer GraphQL-typer og benyttes for å sjekke at riktige ting sendes på resolve. I schema-mappen er det definert GraphQL-schema som strukturer på endepunkter medargumenter for søk, filtrering og oppsett som GraphQL trenger for å vite hva som skal returneres og hvordan man skal spørre etter data. Denne inneholder også struktur mutasjoner med informasjon om hvordan man legger til ting i databasen (for eksempel addMovieComment). 
 
- Models-mappen inneholder MongoDB-modeller som forteller databasen hvordan modellene og deres felter / struktur ser ut. 
+ Models-mappen inneholder MongoDB-modeller som forteller databasen hvordan modellene og deres felter / struktur ser ut.
+
+ MongoDB er satt opp på VM som vi har fått tildelt, express kjører som en service og lytter på port 5050. For at ting skal se finere ut i spørringene våre så har vi satt opp en proxypass med Apache sånn at vi kan bruke /prosjekt/api isteden for port 5050.
+
+ Det ligger ved en test men den sjekker bare egentlig at serveren bare starter og svarer. Mer testing av backenden er gjort gjennom Cypress i frontend repoet der vi interakterer med siden og ser hva vi får til svar.
 
